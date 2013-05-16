@@ -1,0 +1,15 @@
+PA2  BUTTON  Port A2/HSE oscillator input
+PA3  BUTTON  Port A3/HSE oscillator output
+PE7  BUTTON  Port E7/LCD segment 27
+PE6  BUTTON  Port E6/PVD_IN
+
+PC1  CLIP LED Port C1/I2C1 clock
+
+
+PC7  Port C7/ADC1_IN3  DAC
+PC4  Port C4/ADC1_IN4  MAX
+
+
+4.7k + 15k = 19.7k
+vout = 0.238
+4.1914893617021276595744680851064

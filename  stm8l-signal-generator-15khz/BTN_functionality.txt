@@ -1,0 +1,46 @@
+if (!(GPIOC->IDR & 0x02))
+  {
+			__IO uint32_t tmp = 100000, i;
+		   uint8_t speed = 0;
+			/* Detect USER button key pressed for more than 250 ms: TUNE FREQ MODE */
+			while (!(GPIOC->IDR & 0x02) && tmp !=0)
+				tmp-- ;
+			if (tmp == 0)
+			{	
+				while (!(GPIOC->IDR & 0x02))
+				{	
+					/* Increase change speed */
+					speed++;
+					if (speed>50) 
+						speed=50;
+					/* Decrement TIM4 Auto reload value to change DAC freq signal */
+					(TIM4->ARR)--;
+					/* Check timer low value to avoid DAC overrrun */
+					if (TIM4->ARR <= 0x09)
+					{
+						TIM4->ARR = 0xFF;
+						/* Change TIM4 prescaler according current range */
+						if (TIM4->PSCR == 0x00)
+						{
+							TIM4->PSCR = 0x04;
+							BAR1_OFF;
+						}
+						else
+						{
+							TIM4->PSCR = 0x00;
+							BAR1_ON;
+						}
+					}
+					/* tempo between 2 freq changes anf blue LED4 ON */
+					GPIOC->ODR |= 0x80;
+					LCD_GLASS_DisplayString("TUNING");
+					for(i=0;i<(100000/speed);i++);
+					GPIOC->ODR &= 0x7F;
+				}
+			}
+
+					       (uint16_t)&Triang12bit2,
+				               (uint16_t)&Square12bit2,
+		                               (uint16_t)&SinCard12bit2,
+		                               (uint16_t)&Sinus12bit2,
+	                                       (uint16_t)&SawTooth12bit2
