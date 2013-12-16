@@ -665,6 +665,7 @@ void main(void)
         str[5] = (unsigned char)((PWMTabVal[req_duty_PWM] % 10) + 48);
         str[4] = (unsigned char)((PWMTabVal[req_duty_PWM] / 10) + 48);
         str[6] = 0;
+        LCD_GLASS_DisplayString(str);
       }
       else if(wave_type < 6)
       {
